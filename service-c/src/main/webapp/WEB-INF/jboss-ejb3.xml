@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<jboss:ejb-jar xmlns:jboss="urn:jboss:jakartaee:1.0"
+               xmlns="https://jakarta.ee/xml/ns/jakartaee"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="urn:jboss:jakartaee:1.0 https://www.jboss.org/schema/jbossas/jboss-ejb3-4_0.xsd
+                     https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/ejb-jar_4_0.xsd"
+               version="4.0">
+    <module-name>service-c</module-name>
+</jboss:ejb-jar>

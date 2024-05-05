@@ -1,0 +1,37 @@
+services:
+  serviceadb:
+    image: postgres:16-alpine
+    container_name: postgres-service-a
+    hostname: postgres-service-a
+    command: postgres -c 'max_connections=300' -c 'max_prepared_transactions=150'
+    ports:
+      - 15432:5432
+    environment:
+      - TZ=Europe/Madrid
+      - POSTGRES_DB=service
+      - POSTGRES_USER=wildfly
+      - POSTGRES_PASSWORD=password
+  servicebdb:
+    image: quay.io/demo-ejb-wildfly-xa/mysql-service-b:latest
+    container_name: mysql-service-b
+    hostname: mysql-service-b
+    ports:
+      - 3306:3306
+    environment:
+      - TZ=Europe/Madrid
+      - MYSQL_DATABASE=service
+      - MYSQL_USER=wildfly
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=password
+  servicecdb:
+    image: postgres:16-alpine
+    container_name: postgres-service-c
+    hostname: postgres-service-c
+    command: postgres -c 'max_connections=300' -c 'max_prepared_transactions=150'
+    ports:
+      - 15434:5432
+    environment:
+      - TZ=Europe/Madrid
+      - POSTGRES_DB=service
+      - POSTGRES_USER=wildfly
+      - POSTGRES_PASSWORD=password

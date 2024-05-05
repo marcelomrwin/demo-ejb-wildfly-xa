@@ -1,0 +1,2 @@
+GRANT XA_RECOVER_ADMIN ON *.* TO 'wildfly'@'%';
+FLUSH PRIVILEGES;

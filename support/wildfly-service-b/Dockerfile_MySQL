@@ -1,0 +1,7 @@
+FROM mysql:8.0.37-debian
+ENV MYSQL_ROOT_PASSWORD password
+ENV MYSQL_DATABASE service
+ENV MYSQL_USER wildfly
+ENV MYSQL_PASSWORD password
+ENV TZ Europe/Madrid
+COPY ./mysql-privileges.sql /docker-entrypoint-initdb.d/

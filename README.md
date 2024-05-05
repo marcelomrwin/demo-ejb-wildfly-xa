@@ -23,15 +23,17 @@ After starting the containers, the following services will be published:
 
 ## Local environment
 
-### Compile and install the entire project `./mvnw clean install -DskipTests`
-### Compile only the service-a module `./mvnw -pl service-a compile`
-### Compile service-b and also it's dependencies `./mvnw -am -pl service-b compile`
-### Wildfly deploy only the service-a `./mvnw -pl service-a wildfly:deploy`
+### Compile and install the entire project 
+`./mvnw clean install -DskipTests`
+### Compile only the service-a module 
+`./mvnw -pl service-a compile`
+### Compile service-b and also it's dependencies 
+`./mvnw -am -pl service-b compile`
+### Wildfly deploy only the service-a 
+`./mvnw -pl service-a wildfly:deploy`
 
 ### Define project root variable
-```
-export PROJECT_ROOT=$(pwd)
-```
+`export PROJECT_ROOT=$(pwd)`
 
 ### Define servers root variable
 Choose a location to download and configure your wildfly instances. For example ~/servers

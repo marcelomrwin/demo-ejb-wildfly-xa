@@ -10,4 +10,6 @@ public interface RemoteServiceB {
     Long createRegistry(String txId);
 
     Long failOnC(String uuid) throws BusinessException;
+
+    Long xaRecovery(String uuid);
 }

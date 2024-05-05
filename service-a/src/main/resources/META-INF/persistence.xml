@@ -9,7 +9,7 @@
         <jta-data-source>java:jboss/datasources/postgresdsXA</jta-data-source>
         <properties>
             <property name="jakarta.persistence.schema-generation.database.action"
-                      value="drop-and-create"/>
+                      value="create"/>
             <property name="jakarta.persistence.schema-generation.create-source"
                       value="metadata"/>
             <property name="jakarta.persistence.schema-generation.drop-source"

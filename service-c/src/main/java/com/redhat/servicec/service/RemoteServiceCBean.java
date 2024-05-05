@@ -10,9 +10,12 @@ import com.redhat.servicec.entity.Registry;
 import jakarta.ejb.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Stateless
 @Remote(RemoteServiceC.class)
@@ -21,6 +24,8 @@ public class RemoteServiceCBean implements RemoteServiceC,LocalServiceC {
 
     @PersistenceContext
     private EntityManager em;
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
@@ -32,7 +37,7 @@ public class RemoteServiceCBean implements RemoteServiceC,LocalServiceC {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     @Logged
     @Override
-    public Long createRegistry(Long registryId, String txtId) {
+    public void createRegistry(Long registryId, String txtId) {
 
         Registry entity = new Registry();
         entity.setId(registryId);
@@ -42,7 +47,6 @@ public class RemoteServiceCBean implements RemoteServiceC,LocalServiceC {
 
         em.persist(entity);
 
-        return entity.getId();
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -52,6 +56,20 @@ public class RemoteServiceCBean implements RemoteServiceC,LocalServiceC {
         createRegistry(id, txtId);
 //        throw new RuntimeException("Service C raised error");
         throw new BusinessException("Service C raise an Exception",txtId);
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @Logged
+    @Override
+    public void xaRecovery(Long id, String uuid) {
+        logger.info("Placing the current thread on hold\nShutdown service-b to observe the transaction recovery operation.\nUsing podman: podman compose down serviceb and then after few seconds podman compose up serviceb -d\nUsing local server: just shutdown and restart the wildfly-b instance");
+        try {
+            createRegistry(id, uuid);
+            TimeUnit.SECONDS.sleep(45);
+        } catch (InterruptedException e) {
+            logger.error("This error should not occur", e);
+            throw new RuntimeException(e);
+        }
     }
 
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)

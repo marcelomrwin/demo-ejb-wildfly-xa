@@ -55,7 +55,7 @@ public class LocalService {
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public String failOnC() throws BusinessException {
-        String uuid = UUID.randomUUID().toString();
+        String uuid = generateUUID();
         Registry registry = new Registry();
         registry.setInfo("Registry MUST fail in service C");
         registry.setTrxId(uuid);
@@ -70,8 +70,29 @@ public class LocalService {
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public String failOnAafterBandC() throws BusinessException {
-        String uuid = UUID.randomUUID().toString();
+        String uuid = generateUUID();
         processAll(uuid);
         throw new BusinessException("This transaction should not be commited", uuid);
+    }
+
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public String xaRecovery() {
+
+        String uuid = generateUUID();
+
+        Registry registry = new Registry();
+        registry.setInfo("Service A - Transaction must survive XA Recovery");
+        registry.setTrxId(uuid);
+        Long entityId = remoteServiceB.xaRecovery(uuid); //A forced shutdown will be performed before this method returns the result
+        registry.setId(entityId);
+        registry.setOpDate(LocalDateTime.now());
+        em.persist(registry);
+
+        return "Transaction %s is expected to complete successfully. Id %d".formatted(uuid, entityId);
+
+    }
+
+    private static String generateUUID() {
+        return UUID.randomUUID().toString();
     }
 }

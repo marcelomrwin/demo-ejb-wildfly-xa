@@ -73,6 +73,14 @@ public class ServiceARestEndpoint {
         }
     }
 
+    @POST
+    @Path("XaRecovery")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response xaRecovery() {
+        String message = localService.xaRecovery();
+        return Response.status(Response.Status.CREATED).entity(message).build();
+    }
+
     @GET
     @Path("listAll")
     public List<Registry> listAll() {

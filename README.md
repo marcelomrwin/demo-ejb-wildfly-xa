@@ -148,6 +148,8 @@ podman push quay.io/demo-ejb-wildfly-xa/service-b:latest
 ## Test ping without transaction
 ```
 curl -s http://localhost:8080/service-a/api/remote
+
+curl -s http://localhost:8080/api/remote
 ```
 
 ## Test List All
@@ -170,6 +172,7 @@ curl -s -X POST http://localhost:8080/service-a/api/process-all
 http -f POST :8080/service-a/api/process-all
 
 >>> container <<<
+curl -s -X POST http://localhost:8080/api/process-all
 http -f POST :8080/api/process-all
 ```
 
